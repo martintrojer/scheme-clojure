@@ -1,0 +1,11 @@
+An interpreter of (a subset of) the Scheme programming language.
+
+Written in Clojure
+
+Copyright Martin Trojer <martin.trojer@gmail.com>
+
+Licensed under GPLv3
+
+2 versions are available; internal and external (DSL)
+
+For more information see http://martinsprogrammingblog.blogspot.com/

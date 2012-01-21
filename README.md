@@ -1,4 +1,4 @@
-An interpreter of (a subset of) the Scheme programming language.
+# An interpreter of (a subset of) the Scheme programming language.
 
 Written in Clojure
 
@@ -13,10 +13,12 @@ For more information see http://martinsprogrammingblog.blogspot.com/
 # Usage
 
 First compile mtscheme to class files;
+
     $ mkdir classes
     $ export CLASSPATH=$CLASSPATH:./classes:.
     $ clojure -e "(compile 'mtscheme)"
-
+    
 Run the tests/repl
+
     $ clojure tester.clj
     $ clojure repl.clj

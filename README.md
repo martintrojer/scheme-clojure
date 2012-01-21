@@ -13,11 +13,10 @@ For more information see http://martinsprogrammingblog.blogspot.com/
 Usage;
 
 * First compile mtscheme to class files;
-$ mkdir classes
-$ export CLASSPATH=$CLASSPATH:./classes:.
-$ clojure -e "(compile 'mtscheme)"
+    $ mkdir classes
+    $ export CLASSPATH=$CLASSPATH:./classes:.
+    $ clojure -e "(compile 'mtscheme)"
 
 * Run the tests/repl
-$ clojure tester.clj
-$ clojure repl.clj
-
+    $ clojure tester.clj
+    $ clojure repl.clj

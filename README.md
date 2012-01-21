@@ -10,13 +10,13 @@ Licensed under GPLv3
 
 For more information see http://martinsprogrammingblog.blogspot.com/
 
-Usage;
+# Usage
 
-* First compile mtscheme to class files;
+First compile mtscheme to class files;
     $ mkdir classes
     $ export CLASSPATH=$CLASSPATH:./classes:.
     $ clojure -e "(compile 'mtscheme)"
 
-* Run the tests/repl
+Run the tests/repl
     $ clojure tester.clj
     $ clojure repl.clj

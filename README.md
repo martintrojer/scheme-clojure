@@ -12,7 +12,9 @@ For more information see http://martinsprogrammingblog.blogspot.com/
 
 # Embedded DSL
 
-internal/ folder
+Sources in the folder called
+
+    internal/
 
 ## Usage
 
@@ -32,6 +34,10 @@ Run the REPL
 
 # External
 
+Leining project and sources in the folder called
+
+    external/
+
 ## Usage
 
 Run the test suite
@@ -42,3 +48,9 @@ Play with the REPL
 
     $ lein uberjar
     $ java -jar mtscheme-0.0.1-SNAPSHOT-standalone.jar
+
+    mtscheme 0.1
+    nil
+    => (+ 1 1)
+    2.0
+

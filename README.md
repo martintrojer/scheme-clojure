@@ -1,4 +1,4 @@
-# An interpreter of (a subset of) the Scheme programming language.
+# An interpreter of (a subset of) the Scheme programming language
 
 Written in Clojure
 
@@ -8,7 +8,10 @@ Licensed under GPLv3
 
 2 versions are available; embedded (internal) and external DSL
 
-For more information see http://martinsprogrammingblog.blogspot.com/
+For more information see 
+
+* http://martinsprogrammingblog.blogspot.com/2011/11/scheme-as-embedded-dsl-in-clojure.html
+* http://martinsprogrammingblog.blogspot.com/2012/01/scheme-as-external-dsl-in-clojure.html
 
 # Embedded DSL
 
@@ -34,7 +37,7 @@ Run the REPL
 
 # External
 
-Leining project and sources in the folder called
+Leiningen project and sources in the folder called
 
     external/
 

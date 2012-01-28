@@ -6,11 +6,15 @@ Copyright Martin Trojer <martin.trojer@gmail.com>
 
 Licensed under GPLv3
 
-2 versions are available; internal and external (DSL)
+2 versions are available; embedded (internal) and external DSL
 
 For more information see http://martinsprogrammingblog.blogspot.com/
 
-# Usage
+# Embedded DSL
+
+internal/ folder
+
+## Usage
 
 First compile mtscheme to class files;
 
@@ -18,7 +22,23 @@ First compile mtscheme to class files;
     $ export CLASSPATH=$CLASSPATH:./classes:.
     $ clojure -e "(compile 'mtscheme)"
     
-Run the tests/repl
+Run the tests
 
     $ clojure tester.clj
+
+Run the REPL
+
     $ clojure repl.clj
+
+# External
+
+## Usage
+
+Run the test suite
+
+    $ lein test
+
+Play with the REPL
+
+    $ lein uberjar
+    $ java -jar mtscheme-0.0.1-SNAPSHOT-standalone.jar

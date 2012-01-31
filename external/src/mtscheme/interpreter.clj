@@ -20,14 +20,14 @@
 (defn- lookup
   "Lookup a key in a stack of environment maps"
   [key env]
-  (let [do-lookup (fn [[fst & rst]]    
-                    (if (contains? fst key) ; can't use if-let because lookup value can be false!
-                      (key fst)
-                      (when-not (nil? rst)
-                        (recur rst))))]    
+  (letfn [(do-lookup [[fst & rst]]    
+            (if (contains? fst key) ; can't use if-let because lookup value can be false!
+              (key fst)
+              (when-not (nil? rst)
+                (recur rst))))]    
     (dprn "lookup" key)
     (let [r (do-lookup env)]
-      (if-not (nil? r)           
+      (if-not (nil? r)               ; same if-let thing here  
         r
         (throw (Exception. (format "unbond symbol %s" key)))))))
 ; (lookup :c [{:a 1 :b 2} {:c 3}])
@@ -103,23 +103,23 @@
         [nil env]))))
 
 (defn- _cond [exps env]
-  (let [do-exp (fn [[cond pos]]
-                 (dprn "cond-do-exp" cond pos)
-                 (if (= cond :else)   ; the special "else" case
-                   [true, (_eval pos env)]
-                   (let [[r, _] (_eval cond env)]  
-                     (if r
-                       [true, (_eval pos env)]
-                       [false, nil]))))
-        
-        run-exps (fn [[fst & rst]]
-                   (dprn "cond-run-exprs" fst rst)
-                   (if-not (nil? fst)      
-                     (let [[status res] (do-exp fst)]
-                       (if status
-                         res
-                         (recur rst)))
-                     [nil env]))]
+  (letfn [(do-exp [[cond pos]]
+            (dprn "cond-do-exp" cond pos)
+            (if (= cond :else) ; the special "else" case
+              [true, (_eval pos env)]
+              (let [[r, _] (_eval cond env)]  
+                (if r
+                  [true, (_eval pos env)]
+                  [false, nil]))))
+
+          (run-exps [[fst & rst]]
+            (dprn "cond-run-exprs" fst rst)
+            (if-not (nil? fst)      
+              (let [[status res] (do-exp fst)]
+                (if status
+                  res
+                  (recur rst)))
+              [nil env]))]
 
     (dprn "cond" exps)
     (run-exps exps)))
@@ -135,30 +135,30 @@
         [(list f s) env]))))
 
 (defn- _list [exps env]
-  (let [do-exps (fn [acc [fst & rst]]
-                  (dprn "list-do-exps" acc fst)
-                  (if-not (nil? fst)
-                    (recur (conj acc (get-evval fst env)) rst)
-                    acc))]    
+  (letfn [(do-exps [acc [fst & rst]]
+            (dprn "list-do-exps" acc fst)
+            (if-not (nil? fst)
+              (recur (conj acc (get-evval fst env)) rst)
+              acc))]    
     (dprn "list" exps)
     [(seq (do-exps [] exps)) env]))
 
 (defn- _append [exps env]
-  (let [do-exps (fn [acc [fst & rst]]
-                  (dprn "append-do-exps" acc fst)
-                  (if-not (nil? fst)
-                    (recur (concat acc (get-evval fst env)) rst)
-                    acc))]
+  (letfn [(do-exps [acc [fst & rst]]
+            (dprn "append-do-exps" acc fst)
+            (if-not (nil? fst)
+              (recur (concat acc (get-evval fst env)) rst)
+              acc))]
     (dprn "append" exps)
     [(do-exps [] exps) env]))
 
 (defn- _begin [exps env]
-  (let [do-exps (fn [[fst & rst] env r]
-                  (dprn "begin-do-exps" fst rst env)
-                  (if-not (nil? fst)
-                    (let [[r e] (_eval fst env)]
-                      (recur rst e r))
-                    [r env]))]
+  (letfn [(do-exps [[fst & rst] env r]
+            (dprn "begin-do-exps" fst rst env)
+            (if-not (nil? fst)
+              (let [[r e] (_eval fst env)]
+                (recur rst e r))
+              [r env]))]
     (dprn "begin" exps)
     (do-exps exps env nil)))
 
@@ -176,12 +176,12 @@
     [(or (nil? r) (empty? r)) env]))
 
 (defn- _let [[binds body] env]
-  (let [do-bind (fn [acc [fst & rst]]
-                  (dprn "let-do-bind" acc fst rst)
-                  (if-not (nil? fst)
-                    (let [[name val] fst]
-                      (recur (assoc acc name (get-evval val env)) rst))
-                    acc))]
+  (letfn [(do-bind [acc [fst & rst]]
+            (dprn "let-do-bind" acc fst rst)
+            (if-not (nil? fst)
+              (let [[name val] fst]
+                (recur (assoc acc name (get-evval val env)) rst))
+              acc))]
     (dprn "let" binds body)
     (let [nenv (cons (do-bind {} binds) env)]
       (dprn "let-body" body nenv)
@@ -210,16 +210,16 @@
 
 (defn _lambda [[args exp] env]
   ; optimization - replace stuff in exp not listed in args
-  (let [do-exp (fn [acc ps [fst & rst]]
-                 (dprn "lambda-do-exp" acc fst)
-                 (if-not (nil? fst)
-                   (if-not (nil? (get ps fst))
-                     (recur (conj acc fst) ps rst)       ; an arg just conj
-                     (let [p (lookup fst env)]           ; not a arg, look it up
-                       (if-not (nil? p)
-                         (recur (conj acc p) ps rst)
-                         (throw (Exception. (format "unbound symbol %s" fst))))))
-                   acc))]
+  (letfn [(do-exp [acc ps [fst & rst]]
+            (dprn "lambda-do-exp" acc fst)
+            (if-not (nil? fst)
+              (if-not (nil? (get ps fst))
+                (recur (conj acc fst) ps rst) ; an arg just conj
+                (let [p (lookup fst env)] ; not a arg, look it up
+                  (if-not (nil? p)
+                    (recur (conj acc p) ps rst)
+                    (throw (Exception. (format "unbound symbol %s" fst))))))
+              acc))]
     (dprn "lambda" args exp env)
     [(list (seq args) (do-exp [] (set args) exp)) env]))
 

@@ -21,13 +21,13 @@
   "Lookup a key in a stack of environment maps"
   [key env]
   (let [do-lookup (fn [[fst & rst]]    
-                    (if (contains? fst key)
+                    (if (contains? fst key) ; can't use if-let because lookup value can be false!
                       (key fst)
                       (when-not (nil? rst)
                         (recur rst))))]    
     (dprn "lookup" key)
     (let [r (do-lookup env)]
-      (if-not (nil? r)           ; can't use if-let because lookup value can be false!
+      (if-not (nil? r)           
         r
         (throw (Exception. (format "unbond symbol %s" key)))))))
 ; (lookup :c [{:a 1 :b 2} {:c 3}])

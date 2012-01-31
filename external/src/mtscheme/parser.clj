@@ -6,26 +6,23 @@
   "Extracts a tagged-list of tokens from a string"
   [s]
 
-  (let [string (fn [acc s]
-                 (let [[fst snd & rst] s
-                       r (apply str rst)]
+  (let [string (fn [acc [fst snd & rst]]
+                 (let [r (apply str rst)]
                    (cond
                     (= fst \") [acc (str snd r)]
                     (not (nil? fst)) (recur (str acc fst) (str snd r))
                     :else (throw (Exception. "malformed string")))))        
         
-        token (fn [acc s]
-                (let [[fst & rst] s
-                      r (apply str rst)]
+        token (fn [acc [fst & rst :as s]]
+                (let [r (apply str rst)]
                   (cond
                    (nil? fst) [acc ""]
                    (= fst \)) [acc s]     
                    (Character/isWhitespace fst) [acc r]
                    :else (recur (str acc fst) r))))
         
-        do-tokenize (fn [acc s]
-                      (let [[fst snd & rst] s
-                            r (apply str rst)
+        do-tokenize (fn [acc [fst snd & rst :as s]]
+                      (let [r (apply str rst)
                             r2 (str snd r)]
                         (cond
                          (nil? fst) acc
@@ -74,8 +71,7 @@
                       (= tok :close) [acc rst]
                       :else (recur (conj acc (map-token fst)) rst))))]    
 
-    (let [toks (tokenize s)]
-      (do-parse [] toks))))
+    (do-parse [] (tokenize s))))
 
 (defn parse
   "Parses a string into a list of expressions, returns the first combination"

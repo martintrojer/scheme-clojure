@@ -30,7 +30,7 @@ First compile mtscheme to class files;
 
     $ mkdir classes
     $ export CLASSPATH=$CLASSPATH:./classes:.
-    $ clojure -e "(compile 'mtscheme)"
+    $ clojure -e "(compile 'mtscheme)"          ;; optional step
     
 Run the tests
 

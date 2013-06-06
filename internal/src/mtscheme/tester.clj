@@ -1,7 +1,7 @@
-(ns mtscheme
+(ns mtscheme.tester
   (:refer-clojure :exclude [cond cons let])
   (:require [clojure.test :as ct])
-  (:use [mtscheme]))
+  (:use [mtscheme.core]))
 
 ; addition
 (+ 1 2)
@@ -64,7 +64,7 @@
 (ct/deftest test-cond
   (ct/is (= (test-fn -1) 1))
   (ct/is (= (test-fn 0) 100))
-  (ct/is (= (test-fn 1) 1)))     
+  (ct/is (= (test-fn 1) 1)))
 
 ; cons
 (ct/deftest test-cons
@@ -80,7 +80,7 @@
 
 (macroexpand-1 '(cons 1 (cons 2 (cons 3 4))))
 (cons 1 (cons 2 (cons 3 4)))
-                                            
+
 (macroexpand '(cons (- 2 1) (cons 2 (+ 1 1 1))))
 (cons (- 2 1) (cons 2 (+ 1 1 1)))
 
@@ -124,7 +124,7 @@
 ; mutable container
 (defn container[]
   (clojure.core/let [col (java.util.Vector.)]
-    (fn [v] 
+    (fn [v]
       (.add col v)
       (.toString col))))
 
@@ -133,7 +133,7 @@
     (define (foreach f l) (if (not (null? l)) (begin (f (car l)) (foreach f (cdr l)))))
     (def vs (container))
     (foreach vs [1 2 3])
-    (ct/is (= (vs 0) "[1, 2, 3, 0]")))) 
+    (ct/is (= (vs 0) "[1, 2, 3, 0]"))))
 
 ; lambda
 (ct/deftest test-lambda

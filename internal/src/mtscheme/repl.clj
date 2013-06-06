@@ -1,6 +1,6 @@
-(ns mtscheme-repl
+(ns mtscheme.repl
   (:refer-clojure :exclude [cond cons let])
-  (:use mtscheme))
+  (:use mtscheme.core))
 
 (defn repl [res]
   (println res)

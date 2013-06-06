@@ -1,8 +1,4 @@
-;; $ mkdir classes
-;; $ export CLASSPATH=$CLASSPATH:./classes:.
-;; $ clojure -e "(compile 'mtscheme)"
-
-(ns mtscheme
+(ns mtscheme.core
   (:gen-class)
   (:refer-clojure :exclude [cond cons let]))
 
@@ -59,7 +55,7 @@
 ;; (macroexpand '(let lisa 1 (+ lisa 1)))  ; serror
 ;; (macroexpand '(let lisa (+ 1 1)))       ; serror
 ;; (macroexpand '(let (a 1)))              ; serror
-;; (macroexpand '(let ((a 1))))  
+;; (macroexpand '(let ((a 1))))
 ;; (macroexpand '(let ((a 1)) a))
 ;; (macroexpand '(let ((a 1)(b 2))(+ a b)))
 ;; (macroexpand '(let (a 1 b 2)))
@@ -70,7 +66,7 @@
 (defmacro begin [& args]
   `(do ~@args))
 
-;; lambda 
+;; lambda
 (defmacro lambda [fst snd & _]
   `(fn [~@fst] ~snd))
 
@@ -78,5 +74,3 @@
 
 ;; display
 (def display println)
-
-

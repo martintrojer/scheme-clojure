@@ -13,10 +13,10 @@ http://www.gnu.org/software/kawa/
 
 2 versions are available; embedded (internal) and external DSL
 
-For more information see 
+For more information see
 
-* http://martinsprogrammingblog.blogspot.com/2011/11/scheme-as-embedded-dsl-in-clojure.html
-* http://martinsprogrammingblog.blogspot.com/2012/01/scheme-as-external-dsl-in-clojure.html
+* http://martintrojer.github.io/clojure/2011/11/29/scheme-as-an-embedded-dsl-in-clojure/
+* http://martintrojer.github.io/clojure/2012/01/28/scheme-as-an-external-dsl-in-clojure/
 
 # Embedded DSL
 
@@ -26,19 +26,7 @@ Sources in the folder called
 
 ## Usage
 
-First compile mtscheme to class files;
-
-    $ mkdir classes
-    $ export CLASSPATH=$CLASSPATH:./classes:.
-    $ clojure -e "(compile 'mtscheme)"          ;; optional step
-    
-Run the tests
-
-    $ clojure tester.clj
-
-Run the REPL
-
-    $ clojure repl.clj
+    $ lein run
 
 # External
 
@@ -54,11 +42,4 @@ Run the test suite
 
 Play with the REPL
 
-    $ lein uberjar
-    $ java -jar mtscheme-0.0.1-SNAPSHOT-standalone.jar
-
-    mtscheme 0.1
-    nil
-    => (+ 1 1)
-    2.0
-
+    $ lein run
